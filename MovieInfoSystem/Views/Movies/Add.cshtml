@@ -1,0 +1,35 @@
+﻿@model MovieServiceModel
+
+@{
+    ViewBag.Title = "Add Movie";
+}
+
+<div class="container">
+    <div class="row">
+        <div class=" col-md-6 col-sm-12 offset-md-2">
+            <form method="post">
+                <h2 class="text-center p-3">Add Movie</h2>
+                <partial name="_AddDetailsPartial" model="@Model" />
+                <div class="form-group">
+                    <label asp-for="GenreId">Genre</label>
+                    <select asp-for="GenreId" class="form-control" multiple>
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <option value="@genre.Id">@genre.Type</option>
+
+                        }
+                    </select>
+                    <span asp-validation-for="GenreId" class="small text-danger mt-2"></span>
+                </div>
+                <partial name="_AddActorsDirectorsAndCountriesPartial" model="@Model" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_AddActorsPartial" />
+    <partial name="_AddDirectorsPartial" />
+    <partial name="_AddCountriesPartial" />
+}

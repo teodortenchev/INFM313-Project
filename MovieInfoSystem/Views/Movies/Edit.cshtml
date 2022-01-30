@@ -1,0 +1,120 @@
+﻿@model MovieServiceModel
+
+@{
+    ViewBag.Title = "Edit Movie";
+}
+
+<div class="container">
+    <div class="row">
+        <div class=" col-md-6 col-sm-12 offset-md-2">
+            <form method="post">
+                <h2 class="text-center p-3">Edit Movie</h2>
+                <partial name="_AddDetailsPartial" model="@Model" ? />
+                <div class="form-group">
+                    <ul>
+                        <li>
+                            Genres
+                            <ul>
+                                @foreach (var genre in Model.Genres)
+                                {
+                                    <li>@genre.Type</li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <ul>
+                        <li>
+                            Actors
+                            <ul>
+                                @foreach (var actor in Model.Actors)
+                                {
+                                    <li>
+                                        @actor.FirstName @actor.LastName -->
+                                        <button asp-controller="Movies"
+                                                asp-action="RemoveActor"
+                                                asp-route-actorId="@actor.ActorId"
+                                                class="border-0 text-danger bg-transparent">
+                                            Remove from movie
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <ul>
+                        <li>
+                            Directors
+                            <ul>
+                                @foreach (var director in Model.Directors)
+                                {
+                                    <li>
+                                        @director.FirstName @director.LastName -->
+                                        <button asp-controller="Movies"
+                                                asp-action="RemoveDirector"
+                                                asp-route-directorId="@director.DirectorId"
+                                                class="border-0 text-danger bg-transparent">
+                                            Remove from movie
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <ul>
+                        <li>
+                            Countries
+                            <ul>
+                                @foreach (var country in Model.Countries)
+                                {
+                                    <li>
+                                        @country.Name -->
+                                        <button asp-controller="Movies"
+                                                asp-action="RemoveCountry"
+                                                asp-route-countryId="@country.CountryId"
+                                                class="border-0 text-danger bg-transparent">
+                                            Remove from movie
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div id="more-details-view">
+                    <partial name="_AddActorsDirectorsAndCountriesPartial" model="@Model" />
+                </div>
+                <button type="submit" class="btn btn-primary mr-5">Commit changes</button>
+                <button id="add-more-details" class="btn btn-success ">Add more details</button>
+                <button class="btn btn-danger float-right" asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id">Delete movie</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_AddActorsPartial" />
+    <partial name="_AddDirectorsPartial" />
+    <partial name="_AddCountriesPartial" />
+
+    <script>
+        let partialViewDivElement = document.getElementById('more-details-view');
+
+        partialViewDivElement.style.display = "none";
+
+        let addMoreDetailsButtonEelement = document.getElementById('add-more-details');
+
+        addMoreDetailsButtonEelement.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            partialViewDivElement.style.display = "block";
+            addMoreDetailsButtonEelement.style.display = "none";
+        })
+
+    </script>
+} 
